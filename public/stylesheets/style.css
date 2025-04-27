@@ -1,4 +1,5 @@
 /*! tailwindcss v4.1.4 | MIT License | https://tailwindcss.com */
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
@@ -7,32 +8,18 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
-    --color-gray-300: oklch(87.2% 0.01 258.338);
-    --color-gray-600: oklch(44.6% 0.03 256.802);
-    --color-gray-700: oklch(37.3% 0.034 259.733);
-    --color-white: #fff;
     --spacing: 0.25rem;
-    --container-md: 28rem;
     --container-7xl: 80rem;
     --text-xs: 0.75rem;
     --text-xs--line-height: calc(1 / 0.75);
-    --text-sm: 0.875rem;
-    --text-sm--line-height: calc(1.25 / 0.875);
     --text-base: 1rem;
     --text-base--line-height: calc(1.5 / 1);
     --text-lg: 1.125rem;
     --text-lg--line-height: calc(1.75 / 1.125);
-    --text-xl: 1.25rem;
-    --text-xl--line-height: calc(1.75 / 1.25);
     --text-2xl: 1.5rem;
     --text-2xl--line-height: calc(2 / 1.5);
-    --text-4xl: 2.25rem;
-    --text-4xl--line-height: calc(2.5 / 2.25);
-    --text-5xl: 3rem;
-    --text-5xl--line-height: 1;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
-    --font-weight-bold: 700;
     --radius-lg: 0.5rem;
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -42,6 +29,7 @@
     --color-secondary: rgb(219, 226, 239);
     --color-accent: rgb(63, 114, 175);
     --color-text: rgb(17, 45, 78);
+    --font-family: "Space Mono", "Roboto", system-ui, sans-serif;
   }
 }
 @layer base {
@@ -220,14 +208,8 @@
   .mb-8 {
     margin-bottom: calc(var(--spacing) * 8);
   }
-  .mb-9 {
-    margin-bottom: calc(var(--spacing) * 9);
-  }
   .flex {
     display: flex;
-  }
-  .table {
-    display: table;
   }
   .max-w-7xl {
     max-width: var(--container-7xl);
@@ -240,12 +222,6 @@
   }
   .flex-1 {
     flex: 1;
-  }
-  .border-collapse {
-    border-collapse: collapse;
-  }
-  .resize {
-    resize: both;
   }
   .flex-col {
     flex-direction: column;
@@ -269,9 +245,6 @@
   .border-secondary {
     border-color: var(--color-secondary);
   }
-  .bg-accent {
-    background-color: var(--color-accent);
-  }
   .bg-accent\/80 {
     background-color: color-mix(in srgb, rgb(63, 114, 175) 80%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -293,10 +266,6 @@
   .text-center {
     text-align: center;
   }
-  .text-2xl {
-    font-size: var(--text-2xl);
-    line-height: var(--tw-leading, var(--text-2xl--line-height));
-  }
   .text-base {
     font-size: var(--text-base);
     line-height: var(--tw-leading, var(--text-base--line-height));
@@ -309,10 +278,6 @@
     font-size: var(--text-xs);
     line-height: var(--tw-leading, var(--text-xs--line-height));
   }
-  .font-bold {
-    --tw-font-weight: var(--font-weight-bold);
-    font-weight: var(--font-weight-bold);
-  }
   .font-medium {
     --tw-font-weight: var(--font-weight-medium);
     font-weight: var(--font-weight-medium);
@@ -323,9 +288,6 @@
   }
   .text-accent {
     color: var(--color-accent);
-  }
-  .text-text {
-    color: var(--color-text);
   }
   .text-text\/70 {
     color: color-mix(in srgb, rgb(17, 45, 78) 70%, transparent);
@@ -339,13 +301,6 @@
       color: color-mix(in oklab, var(--color-text) 80%, transparent);
     }
   }
-  .underline {
-    text-decoration-line: underline;
-  }
-  .outline {
-    outline-style: var(--tw-outline-style);
-    outline-width: 1px;
-  }
   .transition-all {
     transition-property: all;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -354,11 +309,6 @@
   .outline-none {
     --tw-outline-style: none;
     outline-style: none;
-  }
-  .last\:text-center {
-    &:last-child {
-      text-align: center;
-    }
   }
   .focus\:border-accent {
     &:focus {
@@ -381,11 +331,6 @@
       margin-bottom: calc(var(--spacing) * 8);
     }
   }
-  .sm\:max-w-fit {
-    @media (width >= 40rem) {
-      max-width: fit-content;
-    }
-  }
   .sm\:flex-0 {
     @media (width >= 40rem) {
       flex: 0;
@@ -400,12 +345,6 @@
     @media (width >= 40rem) {
       font-size: var(--text-2xl);
       line-height: var(--tw-leading, var(--text-2xl--line-height));
-    }
-  }
-  .sm\:text-4xl {
-    @media (width >= 40rem) {
-      font-size: var(--text-4xl);
-      line-height: var(--tw-leading, var(--text-4xl--line-height));
     }
   }
   .sm\:text-base {
@@ -423,6 +362,7 @@
 }
 * {
   box-sizing: border-box;
+  font-family: var(--font-family);
 }
 body {
   position: relative;
@@ -439,11 +379,6 @@ body {
 @property --tw-font-weight {
   syntax: "*";
   inherits: false;
-}
-@property --tw-outline-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
 }
 @property --tw-shadow {
   syntax: "*";
@@ -515,7 +450,6 @@ body {
     *, ::before, ::after, ::backdrop {
       --tw-border-style: solid;
       --tw-font-weight: initial;
-      --tw-outline-style: solid;
       --tw-shadow: 0 0 #0000;
       --tw-shadow-color: initial;
       --tw-shadow-alpha: 100%;

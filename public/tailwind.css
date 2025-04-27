@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -5,11 +6,12 @@
   --color-secondary: rgb(219, 226, 239);
   --color-accent: rgb(63, 114, 175);
   --color-text: rgb(17, 45, 78);
-  --font-family-headings: "Anonymous Pro", "Roboto", system-ui, sans-serif;
+  --font-family: "Space Mono", "Roboto", system-ui, sans-serif;
 }
 
 * {
   box-sizing: border-box;
+  font-family: var(--font-family);
 }
 
 body {
