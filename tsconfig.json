@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "lib": [
+      "esNext"
+    ] /* Specify a set of bundled library declaration files that describe the target runtime environment. */,
+
+    /* Emit */
+    "sourceMap": true /* Create source map files for emitted JavaScript files. */,
+    "outDir": "dist" /* Specify an output folder for all emitted files. */,
+
+    /* Interop Constraints */
+    "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
+
+    /* Type Checking */
+    "strict": true /* Enable all strict type-checking options. */
+  }
+}
