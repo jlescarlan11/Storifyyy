@@ -1,5 +1,5 @@
 import type { RequestHandler } from "express";
-const initializePassport = require("./config/passport-config");
+import initializePassport from "./config/passport-config";
 const pool = require("./db/pool");
 const path = require("node:path");
 const express = require("express");
@@ -49,5 +49,5 @@ app.use("/", storifyRouter);
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log("Server is listening on port localhost:3000");
+  console.log("Server is listening on port http://localhost:3000");
 });

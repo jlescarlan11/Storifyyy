@@ -3,3 +3,5 @@ const storifyRouter = Router();
 const storifyController = require("../controllers/storifyController");
 
 storifyRouter.get("/", storifyController.index);
+
+module.exports = storifyRouter;
