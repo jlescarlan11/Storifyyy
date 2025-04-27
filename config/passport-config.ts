@@ -1,6 +1,4 @@
-// config/passport-config.ts
 import type { PassportStatic } from "passport";
-// import type { AuthenticateOptions } from "passport-local";
 import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcryptjs";
 import query from "../db/queries";
