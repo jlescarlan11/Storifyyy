@@ -1,7 +1,5 @@
-import { get } from "http";
 import { PrismaClient } from "../generated/prisma";
 
-import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 const query = {
