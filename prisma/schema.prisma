@@ -15,40 +15,16 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  firstName String   @db.VarChar(55)
-  lastName  String   @db.VarChar(55)
-  email     String   @unique
-  password  String   @db.VarChar(255)
-  folder    Folder[]
-
-  @@index([email])
+  id        String @id @default(uuid())
+  firstName String @db.VarChar(55)
+  lastName  String @db.VarChar(55)
+  email     String @unique
+  password  String
 }
 
-model Folder {
-  id         String       @id @default(uuid())
-  name       String
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
-  author     User         @relation(fields: [userId], references: [id])
-  userId     String
-  folderFile FolderFile[]
-}
-
-model File {
-  id         String       @id @default(uuid())
-  name       String
-  size       Int
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
-  folderFile FolderFile[]
-}
-
-model FolderFile {
-  folder   Folder @relation(fields: [folderId], references: [id])
-  folderId String
-  file     File   @relation(fields: [fileId], references: [id])
-  fileId   String
-
-  @@id([folderId, fileId]) // composite primary key
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
 }

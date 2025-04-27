@@ -11,12 +11,35 @@
     "prisma:studio": "prisma studio",
     "build-css": "tailwindcss --input public/tailwind.css --output public/stylesheets/style.css --watch --cssnano"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlescarlan11/Storify.git"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jlescarlan11/Storify/issues"
+  },
+  "homepage": "https://github.com/jlescarlan11/Storify#readme",
   "description": "",
+  "dependencies": {
+    "@prisma/client": "^6.6.0",
+    "@quixo3/prisma-session-store": "^3.1.13",
+    "@tailwindcss/cli": "^4.1.4",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "express-validator": "^7.2.1",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "tailwindcss": "^4.1.4"
+  },
   "devDependencies": {
     "@types/express": "^5.0.1",
+    "@types/express-session": "^1.18.1",
     "@types/node": "^22.15.2",
     "@types/passport": "^1.0.17",
     "@types/passport-local": "^1.0.38",
@@ -25,20 +48,5 @@
     "prisma": "^6.6.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
-  },
-  "dependencies": {
-    "@prisma/client": "^6.6.0",
-    "@tailwindcss/cli": "^4.1.4",
-    "bcryptjs": "^3.0.2",
-    "connect-pg-simple": "^10.0.0",
-    "dotenv": "^16.5.0",
-    "ejs": "^3.1.10",
-    "express": "^5.1.0",
-    "express-session": "^1.18.1",
-    "express-validator": "^7.2.1",
-    "passport": "^0.7.0",
-    "passport-local": "^1.0.0",
-    "pg": "^8.15.6",
-    "tailwindcss": "^4.1.4"
   }
 }

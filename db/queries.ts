@@ -1,22 +1,13 @@
-import { PrismaClient } from "../generated/prisma";
-
+import { PrismaClient } from "../generated/prisma/client";
 const prisma = new PrismaClient();
 
 const query = {
   user: {
-    getAll: async () => {
-      return await prisma.user.findMany();
-    },
-    getByEmail: async (email: string) => {
-      return await prisma.user.findUnique({
-        where: { email },
-      });
-    },
-    getById: async (id: string) => {
-      return await prisma.user.findUnique({
-        where: { id },
-      });
-    },
+    getAll: async () => await prisma.user.findMany(),
+    getById: async (id: string) =>
+      await prisma.user.findUnique({ where: { id: id } }),
+    getByEmail: async (email: string) =>
+      await prisma.user.findUnique({ where: { email } }),
   },
 };
 
