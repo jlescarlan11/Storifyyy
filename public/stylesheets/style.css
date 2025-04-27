@@ -218,6 +218,9 @@
   .hidden {
     display: none;
   }
+  .table {
+    display: table;
+  }
   .max-w-7xl {
     max-width: var(--container-7xl);
   }
@@ -232,6 +235,15 @@
   }
   .flex-1 {
     flex: 1;
+  }
+  .border-collapse {
+    border-collapse: collapse;
+  }
+  .cursor-none {
+    cursor: none;
+  }
+  .resize {
+    resize: both;
   }
   .flex-col {
     flex-direction: column;
@@ -273,6 +285,9 @@
   .text-center {
     text-align: center;
   }
+  .font-family {
+    font-family: var(--font-family);
+  }
   .text-2xl {
     font-size: var(--text-2xl);
     line-height: var(--tw-leading, var(--text-2xl--line-height));
@@ -304,6 +319,9 @@
   .text-accent {
     color: var(--color-accent);
   }
+  .text-text {
+    color: var(--color-text);
+  }
   .text-text\/70 {
     color: color-mix(in srgb, rgb(17, 45, 78) 70%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -315,6 +333,13 @@
     @supports (color: color-mix(in lab, red, red)) {
       color: color-mix(in oklab, var(--color-text) 80%, transparent);
     }
+  }
+  .underline {
+    text-decoration-line: underline;
+  }
+  .outline {
+    outline-style: var(--tw-outline-style);
+    outline-width: 1px;
   }
   .brightness-\[87\%\] {
     --tw-brightness: brightness(87%);
@@ -340,6 +365,9 @@
     --tw-sepia: sepia(45%);
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
+  .filter {
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  }
   .transition-all {
     transition-property: all;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -356,6 +384,10 @@
   .outline-none {
     --tw-outline-style: none;
     outline-style: none;
+  }
+  .select-none {
+    -webkit-user-select: none;
+    user-select: none;
   }
   .hover\:bg-accent\/70 {
     &:hover {
@@ -452,6 +484,11 @@ body {
 @property --tw-font-weight {
   syntax: "*";
   inherits: false;
+}
+@property --tw-outline-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
 }
 @property --tw-blur {
   syntax: "*";
@@ -584,6 +621,7 @@ body {
     *, ::before, ::after, ::backdrop {
       --tw-border-style: solid;
       --tw-font-weight: initial;
+      --tw-outline-style: solid;
       --tw-blur: initial;
       --tw-brightness: initial;
       --tw-contrast: initial;
