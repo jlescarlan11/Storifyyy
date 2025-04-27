@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <title>Storify - Signup</title>
+  </head>
+  <body>
+    <main class="container mx-auto flex flex-col max-w-7xl">
+      <div class="p-8 flex-1">
+        <form
+          action="/signup"
+          method="POST"
+          class="max-w-fit border mx-auto border-secondary p-4 sm:p-8 rounded-lg mb-4 sm:mb-8"
+        >
+          <div class="text-center mb-4">
+            <h1 class="text-lg sm:text-2xl font-semibold">
+              Create a new account
+            </h1>
+            <p class="text-base sm:text-lg">It's quick and easy.</p>
+          </div>
+          <%- include("partials/errors") %>
+          <div>
+            <div class="flex gap-4 flex-wrap mb-4">
+              <div class="flex flex-col flex-1">
+                <label
+                  for="firstName"
+                  class="text-xs sm:text-base font-medium text-text/80 mb-2"
+                  >First Name</label
+                >
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  class="max-w-full text-xs sm:text-base px-4 py-2 border border-secondary rounded-lg focus:ring-2 focus:ring-accent focus:border-accent outline-none transition-all"
+                  placeholder="Enter your first name"
+                  title="Enter your first name"
+                  required
+                />
+              </div>
+              <div class="flex flex-col flex-1">
+                <label
+                  for="lastName"
+                  class="text-xs sm:text-base font-medium text-text/80 mb-2"
+                  >Last Name</label
+                >
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  class="max-w-full text-xs sm:text-base px-4 py-2 border border-secondary rounded-lg focus:ring-2 focus:ring-accent focus:border-accent outline-none transition-all"
+                  placeholder="Enter your last name"
+                  title="Enter your last name"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="flex flex-col flex-1 mb-4">
+              <label
+                for="email"
+                class="text-xs sm:text-base font-medium text-text/70 mb-2"
+                >Email address</label
+              >
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="max-w-full text-xs sm:text-base px-4 py-2 border border-secondary rounded-lg focus:ring-2 focus:ring-accent focus:border-accent outline-none transition-all"
+                placeholder="Enter your email"
+                title="Enter your email"
+                required
+              />
+            </div>
+
+            <div class="flex flex-col flex-1 mb-4">
+              <label
+                for="password"
+                class="text-xs sm:text-base font-medium text-text/80 mb-2"
+                >Password</label
+              >
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="max-w-full text-xs sm:text-base px-4 py-2 border border-secondary rounded-lg focus:ring-2 focus:ring-accent focus:border-accent outline-none transition-all"
+                placeholder="Enter your password"
+                title="Enter your password"
+                required
+              />
+            </div>
+
+            <div class="flex flex-col flex-1 mb-8">
+              <label
+                for="confirmPassword"
+                class="text-xs sm:text-base font-medium text-text/80 mb-2"
+                >Confirm Password</label
+              >
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                class="max-w-full text-xs sm:text-base px-4 py-2 border border-secondary rounded-lg focus:ring-2 focus:ring-accent focus:border-accent outline-none transition-all"
+                placeholder="Confirm your password"
+                title="Confirm your password"
+                required
+              />
+            </div>
+
+            <div class="max-w-full flex justify-center mb-4 sm:mb-8">
+              <input
+                type="button"
+                value="Sign Up"
+                class="p-4 rounded-lg flex-1 sm:flex-0 bg-accent/80 font-semibold"
+              />
+            </div>
+          </div>
+          <div>
+            <p class="text-center text-xs sm:text-base">
+              Already have an account?
+              <a href="/" class="text-accent font-semibold">Log In now</a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>
