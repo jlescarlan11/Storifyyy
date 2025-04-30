@@ -1,16 +1,15 @@
-import type { PassportStatic } from "passport";
-import { Strategy as LocalStrategy } from "passport-local";
-import bcrypt from "bcryptjs";
-import query from "../db/queries";
+const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcryptjs");
+const query = require("../schema/queries");
 
-export default function initializePassport(passport: PassportStatic): void {
+module.exports = function initializePassport(passport) {
   passport.use(
     new LocalStrategy(
       {
         usernameField: "email",
         passwordField: "password",
       },
-      async (email: string, password: string, done) => {
+      async (email, password, done) => {
         try {
           const user = await query.user.getByEmail(email);
           if (!user) return done(null, false, { message: "Incorrect email" });
@@ -25,8 +24,8 @@ export default function initializePassport(passport: PassportStatic): void {
     )
   );
 
-  passport.serializeUser((user, done) => done(null, (user as any).user_id));
-  passport.deserializeUser(async (id: string, done) => {
+  passport.serializeUser((user, done) => done(null, user.id));
+  passport.deserializeUser(async (id, done) => {
     try {
       const user = await query.user.getById(id);
       if (!user) return done(null, false);
@@ -35,4 +34,4 @@ export default function initializePassport(passport: PassportStatic): void {
       done(err);
     }
   });
-}
+};

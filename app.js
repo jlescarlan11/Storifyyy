@@ -1,21 +1,17 @@
-import type { RequestHandler } from "express";
-import initializePassport from "./config/passport-config";
-import path from "node:path";
-import express from "express";
-import session from "express-session";
-import { PrismaSessionStore } from "@quixo3/prisma-session-store";
-import { PrismaClient } from "./generated/prisma/client";
-import passport from "passport";
-import storifyRouter from "./routes/storifyRouter";
-require("dotenv").config();
+const path = require("path");
+const express = require("express");
+const session = require("express-session");
+const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
+const { PrismaClient } = require("./generated/prisma");
+const passport = require("passport");
+const initializePassport = require("./config/passport-config");
+const storifyRouter = require("./routes/storifyRouter");
 
 const app = express();
 
-// for styling
 const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
 
-// for views
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
@@ -24,11 +20,11 @@ app.use(
     cookie: {
       maxAge: 7 * 24 * 60 * 60 * 1000, // ms
     },
-    secret: process.env.SESSION_SECRET!,
+    secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
     store: new PrismaSessionStore(new PrismaClient(), {
-      checkPeriod: 2 * 60 * 1000,
+      checkPeriod: 2 * 60 * 1000, //ms
       dbRecordIdIsSessionId: true,
       dbRecordIdFunction: undefined,
     }),
@@ -36,16 +32,13 @@ app.use(
 );
 
 initializePassport(passport);
-
 app.use(passport.session());
 app.use(express.urlencoded({ extended: true }));
 
-// to localize the saved user.
-const attachUser: RequestHandler = (req, res, next) => {
+app.use((req, res, next) => {
   res.locals.user = req.user;
   next();
-};
-app.use(attachUser);
+});
 
 app.use("/", storifyRouter);
 

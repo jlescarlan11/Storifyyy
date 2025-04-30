@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <title>Movie Database | Log In</title>
+  </head>
+  <body class="container max-w-7xl mx-auto p-8 min-h-dvh my-auto">
+    <main class="item-center">
+      <div class="mb-8">
+        <h1 class="text-5xl font-bold text-center">Storify</h1>
+      </div>
+      <div class="flex justify-center">
+        <div class="border rounded-lg p-4 w-full max-w-xl">
+          <form action="/login" method="POST" class="">
+            <%- include("partials/errors") %>
+            <div class="">
+              <div class="flex flex-col group gap-2 mb-4">
+                <label
+                  for="email"
+                  class="text-xs font-medium text-text/80 group-focus-within:text-text"
+                  >Email address</label
+                >
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  title="Enter your email"
+                  class="border border-text text-xs p-2 rounded-lg"
+                  required
+                />
+              </div>
+
+              <div class="flex flex-col group gap-2 mb-4">
+                <div class="flex justify-between">
+                  <label
+                    for="password"
+                    class="text-xs font-medium text-text/80 group-focus-within:text-text"
+                    >Password</label
+                  >
+                  <a
+                    href="/password-reset"
+                    class="text-xs font-medium text-text/80"
+                    >Forgot password?</a
+                  >
+                </div>
+                <input
+                  type="password"
+                  id="email"
+                  name="email"
+                  title="Enter your password"
+                  class="border border-text text-xs p-2 rounded-lg"
+                  required
+                />
+              </div>
+
+              <div class="flex flex-col group gap-2 mb-4">
+                <input
+                  type="submit"
+                  value="Log In"
+                  class="text-primary bg-accent focus:bg-accent/90 focus:scale-95 transition-all duration-300 ease-in-out p-2 rounded-lg flex-1"
+                />
+              </div>
+            </div>
+
+            <div class="text-center">
+              <p class="text-xs font-medium text-text/80">
+                Don't have an account?
+                <a href="/signup" class="text-accent focus:text-accent/90"
+                  >Sign up now</a
+                >
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
