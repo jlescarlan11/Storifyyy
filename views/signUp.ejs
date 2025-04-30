@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <title>Storify - Signup</title>
+  </head>
+  <body>
+    <main
+      class="container max-w-7xl mx-auto flex flex-col sm:flex-row justify-center items-center gap-8 p-8"
+    >
+      <div class="sm:flex-1 flex flex-col items-center justify-center">
+        <h1 class="text-3xl sm:text-5xl font-bold">Storify</h1>
+        <img
+          src="/images/storifyLogo.svg"
+          class="max-w-80 select-none hidden sm:block"
+          alt="Image of a folder."
+        />
+      </div>
+      <div class="flex-1 flex flex-col items-center sm:justify-center">
+        <form
+          action="/signup"
+          method="POST"
+          class="border border-secondary max-w-fit p-4 sm:p-8 rounded-lg"
+        >
+          <div class="text-center mb-4">
+            <h2 class="text-xl sm:text-3xl font-bold">Create New Account</h2>
+            <p class="text-text/80">It's quick and easy.</p>
+          </div>
+          <%- include("partials/errors") %>
+          <div class="mb-4">
+            <div class="flex flex-wrap gap-4 mb-2">
+              <div class="flex-1 flex flex-col group">
+                <label
+                  for="firstName"
+                  class="text-xs font-medium text-text/80 group-focus-within:text-text mb-2"
+                >
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  placeholder="First name"
+                  title="Enter your first name"
+                  class="border border-secondary rounded-lg p-2 text-xs"
+                  required
+                />
+              </div>
+              <div class="flex-1 flex flex-col group">
+                <label
+                  for="lastName"
+                  class="text-xs font-medium text-text/80 group-focus-within:text-text mb-2"
+                  >Last Name</label
+                >
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  placeholder="Last name"
+                  title="Enter your last name"
+                  class="border border-secondary rounded-lg p-2 text-xs"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="flex flex-col flex-1 group mb-2">
+              <label
+                for="email"
+                class="text-xs font-medium text-text/80 group-focus-within:text-text mb-2"
+                >Email address</label
+              >
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Email"
+                title="Enter your email"
+                class="border border-secondary rounded-lg p-2 text-xs"
+                required
+              />
+            </div>
+
+            <div class="flex flex-col flex-1 group mb-2">
+              <label
+                for="password"
+                class="text-xs font-medium text-text/80 group-focus-within:text-text mb-2"
+                >Password</label
+              >
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+                title="Enter your password"
+                class="border border-secondary rounded-lg p-2 text-xs"
+                required
+              />
+            </div>
+
+            <div class="flex flex-col flex-1 group mb-4">
+              <label
+                for="confirmPassword"
+                class="text-xs font-medium text-text/80 group-focus-within:text-text mb-2"
+                >Confirm Password</label
+              >
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Confirm password"
+                title="Confirm your password"
+                class="border border-secondary rounded-lg p-2 text-xs"
+                required
+              />
+            </div>
+
+            <div class="w-full flex">
+              <input
+                type="submit"
+                value="Sign Up"
+                class="mx-auto sm:flex-1 bg-accent hover:bg-accent/80 transition-all ease-in-out duration-200 p-2 rounded-lg font-medium"
+              />
+            </div>
+          </div>
+          <p class="text-xs text-center">
+            Already have an account?
+            <a
+              href="/"
+              title="Go to Login Form"
+              class="hover:text-accent/80 text-accent font-medium"
+              >Log In now</a
+            >
+          </p>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

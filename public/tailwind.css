@@ -13,9 +13,6 @@
 }
 
 body {
-  position: relative;
-  height: 100dvh;
-  display: flex;
   color: var(--color-text);
   background-color: var(--color-primary);
 }

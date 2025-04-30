@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -15,11 +9,13 @@ datasource db {
 }
 
 model User {
-  id        String @id @default(uuid())
-  firstName String @db.VarChar(55)
-  lastName  String @db.VarChar(55)
-  email     String @unique
+  id        String   @id @default(uuid())
+  firstName String   @db.VarChar(55)
+  lastName  String   @db.VarChar(55)
+  email     String   @unique
   password  String
+  File      File[]
+  Folder    Folder[]
 }
 
 model Session {
@@ -27,4 +23,26 @@ model Session {
   sid       String   @unique
   data      String
   expiresAt DateTime
+}
+
+model File {
+  id        String   @id
+  name      String
+  userId    String
+  createdAt DateTime @default(now())
+  folderId  String?
+  path      String
+  size      Int
+  type      String
+  Folder    Folder?  @relation(fields: [folderId], references: [id])
+  User      User     @relation(fields: [userId], references: [id])
+}
+
+model Folder {
+  id        String   @id
+  name      String
+  createdAt DateTime @default(now())
+  userId    String
+  File      File[]
+  User      User     @relation(fields: [userId], references: [id])
 }
