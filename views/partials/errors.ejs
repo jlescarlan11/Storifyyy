@@ -1,0 +1,11 @@
+<% if (locals.errors) { %>
+<div class="text-xs bg-red-200 p-4 rounded-lg mb-4">
+  <% for (const error of errors) { %>
+  <div class="flex gap-2">
+    <span>■</span>
+    <p class=""><%= error.msg %></p>
+  </div>
+
+  <% } %>
+</div>
+<% } %>

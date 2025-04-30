@@ -8,10 +8,7 @@ module.exports = {
     getById: async (id) => await prisma.user.findUnique({ where: { id } }),
     getByEmail: async (email) =>
       await prisma.user.findUnique({ where: { email } }),
-    createUser: async ({ firstName, lastName, email, password }) => {
-      // 1. Hash the plain‐text password
-      const hashedPassword = await bcrypt.hash(password, 10);
-
+    createUser: async ({ firstName, lastName, email, hashedPassword }) => {
       await prisma.user.create({
         data: {
           firstName,
@@ -21,9 +18,7 @@ module.exports = {
         },
       });
     },
-    updatePassword: async ({ id, password }) => {
-      const hashedPassword = await bcrypt.hash(password.trim(), 10);
-
+    updatePassword: async ({ id, hashedPassword }) => {
       await prisma.user.update({
         where: {
           id: id,
