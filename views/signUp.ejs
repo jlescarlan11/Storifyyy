@@ -7,75 +7,81 @@
     <title>Storify - Signup</title>
   </head>
   <body>
-    <main class="container max-w-7xl mx-auto p-8 min-h-dvh my-auto">
-      <div class="items-center">
-        <div class="mb-8">
-          <h1 class="text-5xl font-bold text-center">Storify</h1>
-        </div>
-        <div class="flex justify-center">
-          <form
-            action="/signup"
-            method="POST"
-            class="border rounded-2xl p-4 w-full max-w-xl"
-          >
-            <div class="text-center mb-4">
-              <h1 class="text-xl font-semibold text-center">
-                Create New Account
-              </h1>
-              <p class="text-xs font-medium text-text/80">
-                It's quick and easy.
-              </p>
-            </div>
-            <%- include("partials/errors") %>
-            <div>
-              <div class="grid grid-cols-2 gap-4 mb-2">
-                <div class="flex flex-col group gap-1">
-                  <label
-                    for="firstName"
-                    class="text-xs font-medium text-text/80 group-focus-within:text-text"
-                  >
-                    First Name
-                  </label>
-                  <input
-                    type="text"
-                    id="firstName"
-                    title="Enter your first name"
-                    class="border border-text text-xs p-2 rounded-lg"
-                    required
-                  />
-                </div>
-                <div class="flex flex-col group gap-1">
-                  <label
-                    for="lastName"
-                    class="text-xs font-medium text-text/80 group-focus-within:text-text"
-                    >Last Name</label
-                  >
-                  <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    title="Enter your last name"
-                    class="border border-text text-xs p-2 rounded-lg"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div class="flex flex-col group gap-1 mb-2">
+    <main
+      class="container max-w-7xl mx-auto flex flex-col sm:flex-row justify-center items-center gap-8 p-8"
+    >
+      <div class="sm:flex-1 flex flex-col items-center justify-center">
+        <h1 class="text-3xl sm:text-5xl font-bold">Storify</h1>
+        <img
+          src="/images/storifyLogo.svg"
+          class="max-w-80 select-none hidden sm:block"
+          alt="Image of a folder."
+        />
+      </div>
+      <div class="flex-1 flex flex-col items-center sm:justify-center">
+        <form
+          action="/signup"
+          method="POST"
+          class="border border-secondary max-w-fit p-4 sm:p-8 rounded-lg"
+        >
+          <div class="text-center mb-4">
+            <h2 class="text-xl sm:text-3xl font-bold">Create New Account</h2>
+            <p class="text-text/80">It's quick and easy.</p>
+          </div>
+          <%- include("partials/errors") %>
+          <div class="mb-4">
+            <div class="flex flex-wrap gap-4 mb-2">
+              <div class="flex-1 flex flex-col group">
                 <label
-                  for="email"
-                  class="text-xs font-medium text-text/80 group-focus-within:text-text"
-                  >Email address</label
+                  for="firstName"
+                  class="text-xs font-medium text-text/80 group-focus-within:text-text mb-2"
                 >
+                  First Name
+                </label>
                 <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  title="Enter your email"
-                  class="border border-text text-xs p-2 rounded-lg"
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  placeholder="First name"
+                  title="Enter your first name"
+                  class="border border-secondary rounded-lg p-2 text-xs"
                   required
                 />
               </div>
+              <div class="flex-1 flex flex-col group">
+                <label
+                  for="lastName"
+                  class="text-xs font-medium text-text/80 group-focus-within:text-text mb-2"
+                  >Last Name</label
+                >
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  placeholder="Last name"
+                  title="Enter your last name"
+                  class="border border-secondary rounded-lg p-2 text-xs"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="flex flex-col flex-1 group mb-2">
+              <label
+                for="email"
+                class="text-xs font-medium text-text/80 group-focus-within:text-text mb-2"
+                >Email address</label
+              >
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Email"
+                title="Enter your email"
+                class="border border-secondary rounded-lg p-2 text-xs"
+                required
+              />
+            </div>
 
               <div class="flex flex-col group gap-1 mb-2">
                 <label

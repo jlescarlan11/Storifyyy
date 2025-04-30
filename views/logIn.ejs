@@ -14,17 +14,17 @@
       <div class="flex justify-center">
         <div class="border rounded-2xl p-4 w-full max-w-xl">
           <form action="/login" method="POST" class="">
-            <%- include("partials/errors") %>
             <div class="text-center mb-4">
-              <h1 class="text-xl font-semibold text-center">
+              <h2 class="text-xl font-semibold text-center">
                 Access Existing Account
-              </h1>
+              </h2>
               <p class="text-xs font-medium text-text/80">
                 It's quick and easy.
               </p>
             </div>
-            <div>
-              <div class="flex flex-col group gap-1 mb-2">
+            <%- include("partials/errors") %>
+            <div class="">
+              <div class="flex flex-col group gap-2 mb-4">
                 <label
                   for="email"
                   class="text-xs font-medium text-text/80 group-focus-within:text-text"
@@ -55,8 +55,8 @@
                 </div>
                 <input
                   type="password"
-                  id="email"
-                  name="email"
+                  id="password"
+                  name="password"
                   title="Enter your password"
                   class="border border-text text-xs p-2 rounded-lg"
                   required

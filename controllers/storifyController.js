@@ -86,7 +86,7 @@ const PasswordResetValidation = [
     .withMessage("Passwords do not match"),
 ];
 
-const logInValidation = [
+const logInValidate = [
   body("email")
     .trim()
     .notEmpty()
@@ -96,15 +96,19 @@ const logInValidation = [
     .custom(async (email, { req }) => {
       const user = await query.user.getByEmail(email);
       if (!user) {
-        throw new Error("Invalid email or password");
+        throw new Error("Invalid email");
       }
+
+      console.log(req.body.password);
+
+      console.log(user.password);
 
       const isPasswordCorrect = await bcrypt.compare(
         req.body.password,
         user.password
       );
       if (!isPasswordCorrect) {
-        throw new Error("Invalid email or password");
+        throw new Error("Invalid  password");
       }
 
       // Attach user to request for passport or further processing if needed
@@ -117,6 +121,7 @@ const logInValidation = [
 ];
 
 exports.index = async (req, res) => {
+  console.log(req.user);
   if (req.user) {
     return res.render("index");
   }
@@ -133,14 +138,19 @@ exports.signUpPost = [
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.render("signup", { errors: errors.array() });
+      return res.render("signUp", {
+        errors: errors.array(),
+        repopulate: req.body,
+      });
     }
 
     try {
       const { firstName, lastName, email, password } = req.body;
       console.log(req.body);
 
-      query.user.createUser({ firstName, lastName, email, password });
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      query.user.createUser({ firstName, lastName, email, hashedPassword });
 
       res.redirect("/");
     } catch (err) {
@@ -150,24 +160,56 @@ exports.signUpPost = [
 ];
 
 exports.logInGet = (req, res) => {
-  res.render("logIn");
+  const raw = req.session.messages || [];
+  const errors = raw.map((msg) => ({ msg }));
+  // clear messages immediately
+  req.session.messages = [];
+
+  // Only include the errors array when there's exactly one error
+  if (errors.length === 1) {
+    res.render("logIn", { errors });
+  } else {
+    // either zero errors or multiple; render without the errors key
+    res.render("logIn");
+  }
 };
 
-exports.logInValidate = [
-  logInValidation,
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      // Render login page with validation errors
-      return res.render("logIn", { errors: errors.array() });
-    }
-    next();
-  },
-];
+// exports.logInPost = [
+//   // step A: run express-validator
+//   logInValidate,
+
+//   // step B: process results & then invoke passport.authenticate
+//   (req, res, next) => {
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       // re-render login form with validation errors
+//       return res.render("logIn", { errors: errors.array() });
+//     }
+
+//     // now that validation passed, hand off to Passport
+//     passport.authenticate("local", (err, user, info) => {
+//       if (err) return next(err);
+//       if (!user) {
+//         // authentication failed (shouldn’t usually happen since we pre-checked,
+//         // but just in case, show the message)
+//         return res.render("logIn", {
+//           errors: [{ msg: info.message || "Login failed" }],
+//         });
+//       }
+
+//       // log the user in
+//       req.logIn(user, (err) => {
+//         if (err) return next(err);
+//         return res.redirect("/");
+//       });
+//     })(req, res, next);
+//   },
+// ];
 
 exports.logInPost = passport.authenticate("local", {
   successRedirect: "/",
-  failureRedirect: "/",
+  failureRedirect: "/login",
+  failureMessage: "Incorrect email or password",
 });
 
 exports.logOutGet = (req, res, next) => {
@@ -218,7 +260,8 @@ exports.passwordResetConfirmPost = [
       });
     }
     try {
-      query.user.updatePassword({ id, password });
+      const hashedPassword = await bcrypt.hash(password, 10);
+      query.user.updatePassword({ id, hashedPassword });
 
       res.redirect("/");
     } catch (err) {
