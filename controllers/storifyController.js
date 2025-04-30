@@ -269,3 +269,8 @@ exports.passwordResetConfirmPost = [
     }
   },
 ];
+
+exports.uploadFilePost = (req, res, next) => {
+  console.log(req.file, req.body);
+  next();
+};
