@@ -1,6 +1,8 @@
 const { Router } = require("express");
 const storifyRouter = Router();
 const storifyController = require("../controllers/storifyController");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 storifyRouter.get("/", storifyController.index);
 storifyRouter.get("/signup", storifyController.signUpGet);
@@ -20,6 +22,11 @@ storifyRouter.get(
 storifyRouter.post(
   "/password-reset/:id",
   storifyController.passwordResetConfirmPost
+);
+storifyRouter.post(
+  "/",
+  upload.single("uploaded_file"),
+  storifyController.uploadFilePost
 );
 
 module.exports = storifyRouter;
