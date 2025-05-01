@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Edit Folder</h1>
+
+    <% if (typeof error !== 'undefined') { %>
+    <div class="alert alert-danger"><%= error %></div>
+    <% } %>
+
+    <form action="/folders/<%= folder.id %>/edit" method="POST">
+      <div class="form-group">
+        <label for="name">Folder Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          class="form-control"
+          value="<%= folder.name %>"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Update Folder</button>
+      <a href="/folders/<%= folder.id %>" class="btn btn-secondary">Cancel</a>
+    </form>
+  </body>
+</html>
