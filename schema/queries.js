@@ -29,4 +29,43 @@ module.exports = {
       });
     },
   },
+  folder: {
+    getAll: async () => await prisma.folder.findMany(),
+
+    getById: async (id) =>
+      await prisma.folder.findUnique({
+        where: { id },
+      }),
+
+    getByUserId: async (userId) =>
+      await prisma.folder.findMany({
+        where: { userId },
+      }),
+
+    create: async ({ name, userId }) =>
+      await prisma.folder.create({
+        data: {
+          name,
+          userId,
+        },
+      }),
+
+    update: async (id, { name }) =>
+      await prisma.folder.update({
+        where: { id },
+        data: { name },
+      }),
+
+    delete: async (id) =>
+      await prisma.folder.delete({
+        where: { id },
+      }),
+
+    // Optional: Get folders with their files
+    getWithFiles: async (id) =>
+      await prisma.folder.findUnique({
+        where: { id },
+        include: { File: true },
+      }),
+  },
 };

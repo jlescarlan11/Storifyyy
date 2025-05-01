@@ -28,5 +28,14 @@ storifyRouter.post(
   upload.single("uploaded_file"),
   storifyController.uploadFilePost
 );
+storifyRouter.get("/folders", storifyController.folderGetAll);
+storifyRouter.get("/folders/create", (req, res) =>
+  res.render("folders/create")
+);
+storifyRouter.post("/folders/create", storifyController.folderCreate);
+storifyRouter.get("/folders/:id", storifyController.folderGetSingle);
+storifyRouter.get("/folders/:id/edit", storifyController.folderEditGet);
+storifyRouter.post("/folders/:id/edit", storifyController.folderEditPost);
+storifyRouter.post("/folders/:id/delete", storifyController.folderDelete);
 
 module.exports = storifyRouter;

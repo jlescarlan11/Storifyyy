@@ -274,3 +274,90 @@ exports.uploadFilePost = (req, res, next) => {
   console.log(req.file, req.body);
   next();
 };
+
+exports.folderGetAll = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const folders = await query.folder.getByUserId(userId);
+    res.render("folders", { folders });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.folderGetSingle = async (req, res, next) => {
+  try {
+    const folder = await query.folder.getById(req.params.id);
+
+    res.render("folders/id", { folder });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.folderCreate = async (req, res, next) => {
+  try {
+    const { name } = req.body;
+    const userId = req.user.id;
+
+    const newFolder = await query.folder.create({
+      name,
+      userId,
+    });
+
+    res.redirect(`/folders/${newFolder.id}`);
+  } catch (err) {
+    res.redirect("/folders/create");
+  }
+};
+
+exports.folderEditGet = async (req, res, next) => {
+  try {
+    const folderId = req.params.id;
+
+    const folder = await query.folder.getById(folderId);
+    res.render("folders/id/edit", { folder });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.folderEditPost = async (req, res, next) => {
+  try {
+    const { name } = req.body;
+    const folderId = req.params.id;
+
+    const updatedFolder = await query.folder.update(folderId, { name });
+    res.redirect(`/folders/${updatedFolder.id}`);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.folderDelete = async (req, res, next) => {
+  try {
+    const folderId = req.params.id;
+
+    await query.folder.delete(folderId);
+    res.redirect("/folders");
+  } catch (err) {
+    next(err);
+  }
+};
+
+// // Optional: Get folder with files
+// exports.folderGetWithFiles = async (req, res, next) => {
+//   try {
+//     const folder = await query.folder.getWithFiles(req.params.id);
+
+//     if (!folder || folder.userId !== req.user.id) {
+//       return res.status(404).render("error", {
+//         message: "Folder not found",
+//       });
+//     }
+
+//     res.render("folders/detail", { folder });
+//   } catch (err) {
+//     next(err);
+//   }
+// };
