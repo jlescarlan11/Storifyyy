@@ -2,6 +2,8 @@ const query = require("../schema/queries");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
+const cloudinary = require("cloudinary").v2;
+const streamifier = require("streamifier");
 
 const signUpValidation = [
   body("firstName")
@@ -270,9 +272,40 @@ exports.passwordResetConfirmPost = [
   },
 ];
 
-exports.uploadFilePost = (req, res, next) => {
-  console.log(req.file, req.body);
-  next();
+exports.uploadToCloudinary = (buffer, folder = "") => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
+      }
+    );
+    streamifier.createReadStream(buffer).pipe(stream);
+  });
+};
+
+exports.uploadFilePost = async (req, res, next) => {
+  try {
+    const folderId = req.params.id;
+    const result = await this.uploadToCloudinary(
+      req.file.buffer,
+      `folders/${folderId}`
+    );
+
+    const file = await query.file.createFile({
+      name: req.file.originalname,
+      path: result.secure_url,
+      size: req.file.size,
+      type: req.file.mimetype,
+      folderId,
+      userId: req.user.id,
+    });
+
+    res.redirect(`/folders/${folderId}`);
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.folderGetAll = async (req, res, next) => {
@@ -304,10 +337,11 @@ exports.folderCreate = async (req, res, next) => {
       name,
       userId,
     });
+    console.log(newFolder.id);
 
     res.redirect(`/folders/${newFolder.id}`);
   } catch (err) {
-    res.redirect("/folders/create");
+    next(err);
   }
 };
 
@@ -340,6 +374,17 @@ exports.folderDelete = async (req, res, next) => {
 
     await query.folder.delete(folderId);
     res.redirect("/folders");
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.fileGet = async (req, res, next) => {
+  try {
+    const folderId = await query.folder.getById(req.params.id);
+    const file = await query.file.getById(req.params.fileId);
+
+    res.render("folders/id/fileId", { folderId: folderId, file });
   } catch (err) {
     next(err);
   }

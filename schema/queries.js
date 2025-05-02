@@ -45,8 +45,8 @@ module.exports = {
     create: async ({ name, userId }) =>
       await prisma.folder.create({
         data: {
-          name,
-          userId,
+          name: name,
+          userId: userId,
         },
       }),
 
@@ -67,5 +67,24 @@ module.exports = {
         where: { id },
         include: { File: true },
       }),
+  },
+  file: {
+    getById: async (fileId) => {
+      await prisma.file.findFirst({
+        where: { id: fileId, folderId },
+      });
+    },
+    createFile: async ({ name, path, size, type, folderId, userId }) => {
+      await prisma.file.create({
+        data: {
+          name: name,
+          path: path,
+          size: size,
+          type: type,
+          folderId: folderId,
+          userId: userId,
+        },
+      });
+    },
   },
 };

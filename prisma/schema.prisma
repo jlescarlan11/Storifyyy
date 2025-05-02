@@ -19,14 +19,14 @@ model User {
 }
 
 model Session {
-  id        String   @id
+  id        String   @id @default(uuid())
   sid       String   @unique
   data      String
   expiresAt DateTime
 }
 
 model File {
-  id        String   @id
+  id        String   @id @default(uuid())
   name      String
   userId    String
   createdAt DateTime @default(now())
@@ -39,10 +39,10 @@ model File {
 }
 
 model Folder {
-  id        String   @id
+  id        String   @id @default(uuid())
   name      String
   createdAt DateTime @default(now())
-  userId    String
   File      File[]
-  User      User     @relation(fields: [userId], references: [id])
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
 }

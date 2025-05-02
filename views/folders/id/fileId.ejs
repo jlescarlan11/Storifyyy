@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>File Details</title>
+    <link href="/css/tailwind.css" rel="stylesheet" />
+  </head>
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-lg max-w-lg w-full">
+      <h1 class="text-3xl font-bold mb-6">File Details</h1>
+
+      <dl class="space-y-4">
+        <div>
+          <dt class="font-semibold text-gray-700">Name</dt>
+          <dd class="ml-4 text-gray-900"><%= file.name %></dd>
+        </div>
+        <div>
+          <dt class="font-semibold text-gray-700">Size</dt>
+          <dd class="ml-4 text-gray-900">
+            <%= (file.size/1024).toFixed(2) %> KB
+          </dd>
+        </div>
+        <div>
+          <dt class="font-semibold text-gray-700">Uploaded At</dt>
+          <dd class="ml-4 text-gray-900">
+            <%= new Date(file.createdAt).toLocaleString() %>
+          </dd>
+        </div>
+      </dl>
+
+      <div class="mt-8">
+        <!-- HREF must match your download route, e.g. GET /folders/:id/files/:fileId/download -->
+        <a
+          href="/folders/<%= folderId %>/files/<%= file.id %>/download"
+          download
+          class="inline-block px-6 py-3 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition"
+        >
+          Download
+        </a>
+      </div>
+    </div>
+  </body>
+</html>
