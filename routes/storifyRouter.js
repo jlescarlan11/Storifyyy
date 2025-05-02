@@ -1,8 +1,10 @@
+const multer = require("multer");
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
 const { Router } = require("express");
 const storifyRouter = Router();
 const storifyController = require("../controllers/storifyController");
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
 
 storifyRouter.get("/", storifyController.index);
 storifyRouter.get("/signup", storifyController.signUpGet);
@@ -23,19 +25,21 @@ storifyRouter.post(
   "/password-reset/:id",
   storifyController.passwordResetConfirmPost
 );
-storifyRouter.post(
-  "/",
-  upload.single("uploaded_file"),
-  storifyController.uploadFilePost
-);
+
 storifyRouter.get("/folders", storifyController.folderGetAll);
 storifyRouter.get("/folders/create", (req, res) =>
   res.render("folders/create")
 );
 storifyRouter.post("/folders/create", storifyController.folderCreate);
 storifyRouter.get("/folders/:id", storifyController.folderGetSingle);
+storifyRouter.post(
+  "/folders/:id",
+  upload.single("uploaded_file"),
+  storifyController.uploadFilePost
+);
 storifyRouter.get("/folders/:id/edit", storifyController.folderEditGet);
 storifyRouter.post("/folders/:id/edit", storifyController.folderEditPost);
 storifyRouter.post("/folders/:id/delete", storifyController.folderDelete);
+storifyRouter.get("/folders/:id/:fileId", storifyController.fileGet);
 
 module.exports = storifyRouter;
