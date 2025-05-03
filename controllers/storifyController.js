@@ -152,7 +152,12 @@ exports.signUpPost = [
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      query.user.createUser({ firstName, lastName, email, hashedPassword });
+      await query.user.createUser({
+        firstName,
+        lastName,
+        email,
+        hashedPassword,
+      });
 
       res.redirect("/");
     } catch (err) {
