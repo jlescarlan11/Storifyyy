@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const cloudinary = require("cloudinary").v2;
 const streamifier = require("streamifier");
+const axios = require("axios"); // Install with: npm install axios
 
 const signUpValidation = [
   body("firstName")
@@ -327,7 +328,7 @@ exports.folderGetSingle = async (req, res, next) => {
   try {
     const folder = await query.folder.getById(req.params.id);
 
-    res.render("folders/id", { folder });
+    res.render("folders/id", { folder, files: folder.File });
   } catch (err) {
     next(err);
   }
@@ -386,10 +387,40 @@ exports.folderDelete = async (req, res, next) => {
 
 exports.fileGet = async (req, res, next) => {
   try {
-    const folderId = await query.folder.getById(req.params.id);
-    const file = await query.file.getById(req.params.fileId);
+    const folder = await query.folder.getById(req.params.id);
+    const file = await query.file.getById(req.params.fileId, req.params.id);
+    console.log(file);
+    res.render("folders/id/fileId", { folder, file });
+  } catch (err) {
+    next(err);
+  }
+};
 
-    res.render("folders/id/fileId", { folderId: folderId, file });
+exports.fileDownload = async (req, res, next) => {
+  try {
+    const file = await query.file.getById(
+      req.params.fileId,
+      req.params.id // folderId
+    );
+
+    if (!file) {
+      return res.status(404).render("error", {
+        message: "File not found in this folder",
+      });
+    }
+
+    // Fetch the file from Cloudinary as a stream
+    const response = await axios.get(file.path, {
+      responseType: "stream",
+    });
+
+    // Set download headers
+    res.setHeader("Content-Disposition", `attachment; filename="${file.name}"`);
+    res.setHeader("Content-Type", response.headers["content-type"]);
+    res.setHeader("Content-Length", response.headers["content-length"]);
+
+    // Stream the file to the client
+    response.data.pipe(res);
   } catch (err) {
     next(err);
   }

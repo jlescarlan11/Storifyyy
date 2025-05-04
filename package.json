@@ -27,6 +27,7 @@
     "@prisma/client": "^6.6.0",
     "@quixo3/prisma-session-store": "^3.1.13",
     "@tailwindcss/cli": "^4.1.4",
+    "axios": "^1.9.0",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.6.0",
     "dotenv": "^16.5.0",

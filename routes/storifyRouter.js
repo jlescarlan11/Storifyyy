@@ -41,5 +41,9 @@ storifyRouter.get("/folders/:id/edit", storifyController.folderEditGet);
 storifyRouter.post("/folders/:id/edit", storifyController.folderEditPost);
 storifyRouter.post("/folders/:id/delete", storifyController.folderDelete);
 storifyRouter.get("/folders/:id/:fileId", storifyController.fileGet);
+storifyRouter.get(
+  "/folders/:id/:fileId/download",
+  storifyController.fileDownload
+);
 
 module.exports = storifyRouter;

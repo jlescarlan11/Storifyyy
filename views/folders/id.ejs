@@ -92,7 +92,10 @@
               </small>
             </div>
             <div class="file-actions">
-              <a href="/files/<%= file.id %>" class="btn btn-link btn-sm">
+              <a
+                href="/folders/<%= folder.id %>/<%= file.id %>"
+                class="btn btn-link btn-sm"
+              >
                 View
               </a>
               <a
