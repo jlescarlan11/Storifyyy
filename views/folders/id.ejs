@@ -92,7 +92,10 @@
               </small>
             </div>
             <div class="file-actions">
-              <a href="/files/<%= file.id %>" class="btn btn-link btn-sm">
+              <a
+                href="/folders/<%= folder.id %>/<%= file.id %>"
+                class="btn btn-link btn-sm"
+              >
                 View
               </a>
               <a
@@ -102,9 +105,8 @@
                 Download
               </a>
               <form
-                action="/files/<%= file.id %>/delete"
+                action="/folders/<%= folder.id %>/<%= file.id %>/delete"
                 method="POST"
-                class="d-inline"
               >
                 <button
                   type="submit"

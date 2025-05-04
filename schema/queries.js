@@ -35,6 +35,7 @@ module.exports = {
     getById: async (id) =>
       await prisma.folder.findUnique({
         where: { id },
+        include: { File: true }, // Get files with folder
       }),
 
     getByUserId: async (userId) =>
@@ -69,8 +70,8 @@ module.exports = {
       }),
   },
   file: {
-    getById: async (fileId) => {
-      await prisma.file.findFirst({
+    getById: async (fileId, folderId) => {
+      return await prisma.file.findFirst({
         where: { id: fileId, folderId },
       });
     },
@@ -84,6 +85,17 @@ module.exports = {
           folderId: folderId,
           userId: userId,
         },
+      });
+    },
+    getFilesByFolderId: async (folderId) => {
+      return await prisma.file.findMany({
+        where: { folderId },
+      });
+    },
+
+    delete: async (fileId) => {
+      return await prisma.file.delete({
+        where: { id: fileId },
       });
     },
   },
