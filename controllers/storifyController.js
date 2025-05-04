@@ -460,6 +460,69 @@ exports.fileDelete = async (req, res, next) => {
   }
 };
 
+exports.shareGet = async (req, res) => {
+  // console.log("hello");
+  try {
+    console.log("hello");
+    res.render("share-form", { folderId: req.params.id });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.sharePost = async (req, res) => {
+  try {
+    const { duration } = req.body;
+    const folderId = req.params.id;
+    const userId = req.user.id;
+
+    // Generate expiration date
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + parseInt(duration));
+
+    // Generate unique token
+    const token = require("crypto").randomBytes(16).toString("hex");
+
+    // Save to database
+    await query.sharedFolder.create({
+      folderId,
+      userId,
+      expiresAt,
+      token,
+    });
+
+    // Generate shareable link
+    const shareLink = `${req.headers.host}/share/${token}`;
+    const sharedEntry = await query.sharedFolder.getByToken(token);
+
+    res.render("share-link", {
+      shareLink,
+      shared: sharedEntry, // Pass the shared folder data
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.shareView = async (req, res) => {
+  try {
+    const shared = await query.sharedFolder.getByToken(req.params.token);
+
+    if (!shared || shared.expiresAt < new Date()) {
+      return res.status(404).render("error", {
+        message: "Link expired or invalid",
+      });
+    }
+
+    res.render("shared-folder", {
+      folder: shared.Folder,
+      files: shared.Folder.File,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 // // Optional: Get folder with files
 // exports.folderGetWithFiles = async (req, res, next) => {
 //   try {

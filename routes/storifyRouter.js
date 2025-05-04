@@ -40,15 +40,18 @@ storifyRouter.post(
 storifyRouter.get("/folders/:id/edit", storifyController.folderEditGet);
 storifyRouter.post("/folders/:id/edit", storifyController.folderEditPost);
 storifyRouter.post("/folders/:id/delete", storifyController.folderDelete);
+storifyRouter.get("/folders/:id/share", storifyController.shareGet);
+storifyRouter.post("/folders/:id/share", storifyController.sharePost);
 storifyRouter.get("/folders/:id/:fileId", storifyController.fileGet);
-storifyRouter.get(
-  "/folders/:id/:fileId/download",
-  storifyController.fileDownload
-);
-
-module.exports = storifyRouter;
 // Add this with other file routes
 storifyRouter.post(
   "/folders/:folderId/:fileId/delete",
   storifyController.fileDelete
 );
+storifyRouter.get(
+  "/folders/:id/:fileId/download",
+  storifyController.fileDownload
+);
+storifyRouter.get("/share/:token", storifyController.shareView);
+
+module.exports = storifyRouter;

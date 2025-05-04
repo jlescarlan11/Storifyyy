@@ -99,4 +99,19 @@ module.exports = {
       });
     },
   },
+  sharedFolder: {
+    create: async ({ folderId, userId, expiresAt, token }) =>
+      await prisma.sharedFolder.create({
+        data: { folderId, userId, expiresAt, token },
+      }),
+    getByToken: async (token) =>
+      await prisma.sharedFolder.findUnique({
+        where: { token },
+        include: { Folder: { include: { File: true } } },
+      }),
+    deleteExpired: async () =>
+      await prisma.sharedFolder.deleteMany({
+        where: { expiresAt: { lt: new Date() } },
+      }),
+  },
 };
