@@ -9,13 +9,14 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  firstName String   @db.VarChar(55)
-  lastName  String   @db.VarChar(55)
-  email     String   @unique
-  password  String
-  File      File[]
-  Folder    Folder[]
+  id           String         @id @default(uuid())
+  firstName    String         @db.VarChar(55)
+  lastName     String         @db.VarChar(55)
+  email        String         @unique
+  password     String
+  File         File[]
+  Folder       Folder[]
+  SharedFolder SharedFolder[]
 }
 
 model Session {
@@ -39,10 +40,22 @@ model File {
 }
 
 model Folder {
+  id           String         @id @default(uuid())
+  name         String
+  createdAt    DateTime       @default(now())
+  File         File[]
+  User         User?          @relation(fields: [userId], references: [id])
+  userId       String?
+  SharedFolder SharedFolder[]
+}
+
+model SharedFolder {
   id        String   @id @default(uuid())
-  name      String
+  folderId  String
+  userId    String
+  expiresAt DateTime
+  token     String   @unique
   createdAt DateTime @default(now())
-  File      File[]
-  User      User?    @relation(fields: [userId], references: [id])
-  userId    String?
+  Folder    Folder   @relation(fields: [folderId], references: [id])
+  User      User     @relation(fields: [userId], references: [id])
 }

@@ -36,6 +36,9 @@
             >
               Edit
             </a>
+            <a href="/folders/<%= folder.id %>/share" class="btn btn-primary">
+              Share Folder
+            </a>
             <form
               action="/folders/<%= folder.id %>/delete"
               method="POST"
@@ -98,6 +101,7 @@
               >
                 View
               </a>
+
               <a
                 href="/files/<%= file.id %>/download"
                 class="btn btn-link btn-sm"

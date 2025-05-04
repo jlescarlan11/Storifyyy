@@ -1,0 +1,6 @@
+<h1><%= folder.name %></h1>
+<% files.forEach(file => { %>
+<div>
+  <a href="<%= file.path %>"><%= file.name %></a>
+</div>
+<% }) %>
