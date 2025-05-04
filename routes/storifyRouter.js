@@ -47,3 +47,8 @@ storifyRouter.get(
 );
 
 module.exports = storifyRouter;
+// Add this with other file routes
+storifyRouter.post(
+  "/folders/:folderId/:fileId/delete",
+  storifyController.fileDelete
+);

@@ -105,9 +105,8 @@
                 Download
               </a>
               <form
-                action="/files/<%= file.id %>/delete"
+                action="/folders/<%= folder.id %>/<%= file.id %>/delete"
                 method="POST"
-                class="d-inline"
               >
                 <button
                   type="submit"

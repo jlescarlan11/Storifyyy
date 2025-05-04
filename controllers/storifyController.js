@@ -281,7 +281,10 @@ exports.passwordResetConfirmPost = [
 exports.uploadToCloudinary = (buffer, folder = "") => {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
-      { folder },
+      {
+        folder,
+        resource_type: "auto", // Add this line to handle PDFs correctly
+      },
       (error, result) => {
         if (error) return reject(error);
         resolve(result);
@@ -421,6 +424,37 @@ exports.fileDownload = async (req, res, next) => {
 
     // Stream the file to the client
     response.data.pipe(res);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.fileDelete = async (req, res, next) => {
+  try {
+    const { folderId, fileId } = req.params;
+
+    // Verify file exists in this folder
+    const file = await query.file.getById(fileId, folderId);
+    if (!file) {
+      return res.status(404).render("error", {
+        message: "File not found in this folder",
+      });
+    }
+
+    // Delete from Cloudinary
+    const publicId = file.path
+      .split("/upload/")[1]
+      .split("/")
+      .slice(1)
+      .join("/")
+      .replace(/\..+$/, "");
+
+    await cloudinary.uploader.destroy(publicId);
+
+    // Delete from database
+    await query.file.delete(fileId);
+
+    res.redirect(`/folders/${folderId}`);
   } catch (err) {
     next(err);
   }

@@ -92,5 +92,11 @@ module.exports = {
         where: { folderId },
       });
     },
+
+    delete: async (fileId) => {
+      return await prisma.file.delete({
+        where: { id: fileId },
+      });
+    },
   },
 };
