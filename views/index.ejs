@@ -6,15 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="stylesheets/style.css" />
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body>
-    <p>Hello world</p>
-
-    <a href="/folders/create" class="bg-red-600">Create New</a>
-
-    <a href="/logout">
-      <!-- Added before: pseudo-element to reserve bold width -->
-      <span> Log Out </span>
-    </a>
+  <body class="flex min-h-dvh flex-col">
+    <%- include("partials/header") %>
+    <main class="flex-1 container max-w-7xl mx-auto p-8 my-auto">
+      <span>Hello, <%- user.firstName %></span>
+      <hr />
+    </main>
+    <%- include("partials/footer") %>
   </body>
 </html>

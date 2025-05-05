@@ -12,7 +12,7 @@ module.exports = function (passport) {
       async (email, password, done) => {
         try {
           // 1. Fetch user
-          const user = await query.user.getByEmail(email);
+          const user = await query.user.getByEmail(email.toLocaleLowerCase());
 
           if (!user) {
             return done(null, false, { message: "Incorrect email" });
