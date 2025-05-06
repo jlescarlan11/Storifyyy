@@ -102,10 +102,6 @@ const logInValidate = [
         throw new Error("Invalid email");
       }
 
-      console.log(req.body.password);
-
-      console.log(user.password);
-
       const isPasswordCorrect = await bcrypt.compare(
         req.body.password,
         user.password
@@ -128,7 +124,6 @@ exports.index = async (req, res, next) => {
     if (req.user) {
       const folders = await query.folder.getQuickAccess(req.user.id);
       const files = await query.file.getAll(req.user.id);
-      console.log(files);
       return res.render("index", { folders, files });
     }
     res.redirect("/login");
@@ -155,7 +150,6 @@ exports.signUpPost = [
 
     try {
       const { firstName, lastName, email, password } = req.body;
-      console.log(req.body);
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -352,7 +346,6 @@ exports.folderCreate = async (req, res, next) => {
       name,
       userId,
     });
-    console.log(newFolder.id);
 
     res.redirect(`/folders/${newFolder.id}`);
   } catch (err) {
@@ -398,7 +391,6 @@ exports.fileGet = async (req, res, next) => {
   try {
     const folder = await query.folder.getById(req.params.id);
     const file = await query.file.getById(req.params.fileId, req.params.id);
-    console.log(file);
     res.render("folders/id/fileId", { folder, file });
   } catch (err) {
     next(err);
@@ -467,9 +459,7 @@ exports.fileDelete = async (req, res, next) => {
 };
 
 exports.shareGet = async (req, res) => {
-  // console.log("hello");
   try {
-    console.log("hello");
     res.render("share-form", { folderId: req.params.id });
   } catch (err) {
     next(err);
