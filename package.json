@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node --watch app.js",
-    "dev": "nodemon app.js",
+    "dev": "node --watch app.js",
+    "start": "nodemon app.js",
     "build": "tsc",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
