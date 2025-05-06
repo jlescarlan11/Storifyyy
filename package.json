@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node --watch app.js",
-    "start": "nodemon app.js",
+    "start": "node app.js",
     "build": "tsc",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
