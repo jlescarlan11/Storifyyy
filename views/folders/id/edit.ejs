@@ -3,29 +3,63 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Edit Folder</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
-  <body>
-    <h1>Edit Folder</h1>
+  <body class="flex flex-col min-h-screen">
+    <%- include("../../partials/header") %>
+    <main class="flex-1 container max-w-7xl mx-auto p-4">
+      <div class="flex items-center justify-center">
+        <div
+          class="w-full max-w-md bg-secondary/20 border border-secondary/30 rounded-xl shadow p-6"
+        >
+          <h2 class="text-2xl font-bold mb-6 text-center text-accent">
+            Edit Folder
+          </h2>
 
-    <% if (typeof error !== 'undefined') { %>
-    <div class="alert alert-danger"><%= error %></div>
-    <% } %>
+          <% if (typeof error !== 'undefined') { %>
+          <div class="mb-4 p-3 bg-red-100 text-red-700 rounded">
+            <%= error %>
+          </div>
+          <% } %>
 
-    <form action="/folders/<%= folder.id %>/edit" method="POST">
-      <div class="form-group">
-        <label for="name">Folder Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          class="form-control"
-          value="<%= folder.name %>"
-          required
-        />
+          <form
+            action="/folders/<%= folder.id %>/edit"
+            method="POST"
+            class="space-y-4"
+          >
+            <div>
+              <label for="name" class="block text-sm font-medium mb-1"
+                >Folder Name</label
+              >
+              <input
+                type="text"
+                id="name"
+                name="name"
+                class="w-full rounded-md border border-secondary/30 bg-white text-text p-2 focus:outline-none focus:ring-2 focus:ring-accent"
+                value="<%= folder.name %>"
+                placeholder="Enter folder name"
+                required
+              />
+            </div>
+
+            <div class="flex justify-end gap-3">
+              <a
+                href="/folders/<%= folder.id %>"
+                class="px-4 py-2 border border-secondary/30 rounded-md text-sm hover:bg-secondary/10"
+                >Cancel</a
+              >
+              <button
+                type="submit"
+                class="px-4 py-2 bg-accent text-white rounded-md text-sm hover:bg-accent/80"
+              >
+                Update Folder
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-      <button type="submit" class="btn btn-primary">Update Folder</button>
-      <a href="/folders/<%= folder.id %>" class="btn btn-secondary">Cancel</a>
-    </form>
+    </main>
+    <%- include("../../partials/footer") %>
   </body>
 </html>

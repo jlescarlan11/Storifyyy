@@ -123,12 +123,18 @@ const logInValidate = [
   body("password").notEmpty().withMessage("Password is required"),
 ];
 
-exports.index = async (req, res) => {
-  console.log(req.user);
-  if (req.user) {
-    return res.render("index");
+exports.index = async (req, res, next) => {
+  try {
+    if (req.user) {
+      const folders = await query.folder.getQuickAccess(req.user.id);
+      const files = await query.file.getAll(req.user.id);
+      console.log(files);
+      return res.render("index", { folders, files });
+    }
+    res.redirect("/login");
+  } catch (err) {
+    next(err);
   }
-  res.redirect("/login");
 };
 
 exports.signUpGet = (req, res) => {

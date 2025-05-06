@@ -31,16 +31,39 @@ module.exports = {
   },
   folder: {
     getAll: async () => await prisma.folder.findMany(),
+    getQuickAccess: async (userId) => {
+      return await prisma.folder.findMany({
+        where: { userId }, // only this user's folders
+        take: 4,
+        orderBy: { createdAt: "desc" },
+        include: {
+          _count: {
+            select: { File: true }, // count the related File records
+          },
+        },
+      });
+    },
 
     getById: async (id) =>
       await prisma.folder.findUnique({
         where: { id },
-        include: { File: true }, // Get files with folder
+        include: {
+          File: {
+            orderBy: {
+              createdAt: "desc",
+            },
+          },
+        },
       }),
 
     getByUserId: async (userId) =>
       await prisma.folder.findMany({
         where: { userId },
+        include: {
+          _count: {
+            select: { File: true }, // count the related File records
+          },
+        },
       }),
 
     create: async ({ name, userId }) =>
@@ -73,6 +96,26 @@ module.exports = {
     getById: async (fileId, folderId) => {
       return await prisma.file.findFirst({
         where: { id: fileId, folderId },
+      });
+    },
+    getAll: async (userId) => {
+      return await prisma.file.findMany({
+        where: { userId },
+        orderBy: { createdAt: "desc" },
+        include: {
+          User: {
+            select: {
+              firstName: true,
+              lastName: true,
+            },
+          },
+          Folder: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
       });
     },
     createFile: async ({ name, path, size, type, folderId, userId }) => {
