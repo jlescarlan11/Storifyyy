@@ -4,35 +4,52 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create New Folder</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
-  <body>
-    <div class="container">
-      <div class="folder-form">
-        <h2 class="form-header">Create New Folder</h2>
+  <body class="flex flex-col min-h-screen">
+    <%- include("../partials/header") %>
+    <main class="flex-1 container max-w-7xl mx-auto p-4">
+      <div class="flex items-center justify-center">
+        <div
+          class="w-full max-w-md bg-secondary/20 border border-secondary/30 rounded-xl shadow p-6"
+        >
+          <h2 class="text-2xl font-bold mb-6 text-center text-accent">
+            Create New Folder
+          </h2>
 
-        <form action="/folders/create" method="POST">
-          <div class="mb-3">
-            <label for="name" class="form-label">Folder Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="name"
-              name="name"
-              value="<%= locals.oldInput ? oldInput.name : '' %>"
-              placeholder="Enter folder name"
-              required
-              autofocus
-            />
-          </div>
+          <form action="/folders/create" method="POST" class="space-y-4">
+            <div>
+              <label for="name" class="block text-sm font-medium mb-1"
+                >Folder Name</label
+              >
+              <input
+                type="text"
+                id="name"
+                name="name"
+                class="w-full rounded-md border border-secondary/30 bg-white text-text p-2 focus:outline-none focus:ring-2 focus:ring-accent"
+                value="<%= locals.oldInput ? oldInput.name : '' %>"
+                placeholder="Enter folder name"
+                required
+                autofocus
+              />
+            </div>
 
-          <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-primary">Create Folder</button>
-            <a href="/folders" class="btn btn-outline-secondary">Cancel</a>
-          </div>
-        </form>
+            <div class="flex justify-end gap-3">
+              <a
+                href="/folders"
+                class="px-4 py-2 border border-secondary/30 rounded-md text-sm hover:bg-secondary/10"
+                >Cancel</a
+              >
+              <button
+                type="submit"
+                class="px-4 py-2 bg-accent text-white rounded-md text-sm hover:bg-accent/80"
+              >
+                Create Folder
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    </main>
   </body>
 </html>

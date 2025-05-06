@@ -4,139 +4,231 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= folder.name %> - Folder Details</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
     <style>
-      .folder-header {
-        background: #f8f9fa;
-        padding: 2rem;
-        border-radius: 8px;
-        margin-bottom: 2rem;
-      }
-      .file-list-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1rem;
-        border-bottom: 1px solid #eee;
-      }
-      .file-actions {
-        min-width: 150px;
-        text-align: right;
+      .view-active {
+        background-color: var(--color-secondary);
+        color: var(--color-accent);
       }
     </style>
   </head>
-  <body>
-    <div class="container">
-      <div class="folder-header">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h1><%= folder.name %></h1>
-          <div class="folder-actions">
+  <body class="flex flex-col min-h-screen">
+    <%- include("../partials/header") %>
+    <main class="flex-1 container max-w-7xl mx-auto p-4">
+      <!-- Folder Header -->
+      <div
+        class="bg-secondary/20 border border-secondary/30 rounded-lg p-4 mb-4 shadow"
+      >
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div
+            class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0"
+          >
+            <h1 class="text-2xl font-semibold text-text"><%= folder.name %></h1>
+            <span class="text-text/50">
+              Created <%= new Date(folder.createdAt).toLocaleDateString() %>
+            </span>
+          </div>
+          <div class="flex items-center justify-start sm:justify-end gap-4">
             <a
               href="/folders/<%= folder.id %>/edit"
-              class="btn btn-outline-primary btn-sm"
+              class="flex items-center p-4 text-text bg-secondary hover:bg-secondary/70 rounded-lg transition"
             >
-              Edit
+              <span class="material-symbols-outlined mr-4">edit</span> Rename
             </a>
-            <a href="/folders/<%= folder.id %>/share" class="btn btn-primary">
-              Share Folder
-            </a>
-            <form
-              action="/folders/<%= folder.id %>/delete"
-              method="POST"
-              class="d-inline"
+            <a
+              href="/folders/<%= folder.id %>/share"
+              class="flex items-center p-4 bg-accent text-primary hover:bg-accent/70 rounded-lg transition"
             >
-              <button
-                type="submit"
-                class="btn btn-outline-danger btn-sm ms-2"
-                onclick="return confirm('Are you sure you want to delete this folder?')"
-              >
-                Delete
-              </button>
-            </form>
+              <span class="material-symbols-outlined mr-4">share</span> Share
+            </a>
           </div>
         </div>
-        <p class="text-muted">
-          Created: <%= new Date(folder.createdAt).toLocaleDateString() %>
-        </p>
       </div>
 
-      <div class="card">
-        <div
-          class="card-header d-flex justify-content-between align-items-center"
+      <!-- Upload Section -->
+      <div
+        class="bg-secondary/20 border border-secondary/30 rounded-lg p-4 mb-4"
+      >
+        <form
+          action="/folders/<%= folder.id %>"
+          enctype="multipart/form-data"
+          method="post"
+          class="flex items-center gap-4"
         >
-          <h5 class="mb-0">Files</h5>
-          <form
-            action="/folders/<%= folder.id %>"
-            enctype="multipart/form-data"
-            method="post"
+          <label class="flex-1">
+            <input
+              type="file"
+              name="uploaded_file"
+              class="block w-full text-sm text-text file:mr-4 file:p-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-accent/10 file:text-accent hover:file:bg-accent/20"
+            />
+          </label>
+          <button
+            type="submit"
+            class="p-4 bg-accent text-primary text-sm hover:bg-accent/70 rounded-lg transition"
           >
-            <div class="form-group">
-              <input
-                type="file"
-                class="form-control-file"
-                name="uploaded_file"
-              />
-              <input
-                type="submit"
-                value="Get me the stats!"
-                class="btn btn-default"
-              />
-            </div>
-          </form>
-        </div>
+            Upload File
+          </button>
+        </form>
+      </div>
 
-        <div class="list-group list-group-flush">
-          <% if (folder.File && folder.File.length > 0) { %> <%
-          folder.File.forEach(file => { %>
-          <div class="file-list-item">
-            <div class="file-info">
-              <span class="me-3"><%= file.name %></span>
-              <small class="text-muted">
-                Uploaded: <%= new Date(file.createdAt).toLocaleDateString() %>
-              </small>
-            </div>
-            <div class="file-actions">
+      <!-- View Toggle -->
+      <div class="flex justify-end gap-4 mb-4">
+        <button
+          id="listViewBtn"
+          class="p-2 rounded-full flex bg-secondary/20 shadow"
+        >
+          <span class="material-symbols-outlined">list</span>
+        </button>
+        <button
+          id="gridViewBtn"
+          class="p-2 rounded-full flex bg-secondary/20 shadow view-active"
+        >
+          <span class="material-symbols-outlined">apps</span>
+        </button>
+      </div>
+
+      <!-- Grid View -->
+      <section
+        id="gridView"
+        class="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs"
+      >
+        <% if (folder.File && folder.File.length > 0) { %> <%
+        folder.File.forEach(file => { %>
+        <div
+          class="bg-secondary/20 border border-secondary/30 rounded-lg p-4 shadow-xs hover:shadow-sm transition"
+        >
+          <div class="flex justify-between items-start mb-4">
+            <span class="material-symbols-outlined text-accent">
+              <%= file.type === 'application/pdf' ? 'picture_as_pdf' :
+              file.type.startsWith('image/') ? 'image' : 'description' %>
+            </span>
+            <div class="flex space-x-4">
+              <a
+                href="<%= file.path %>"
+                target="_blank"
+                class="text-text/50 hover:text-text"
+              >
+                <span class="material-symbols-outlined">link</span>
+              </a>
               <a
                 href="/folders/<%= folder.id %>/<%= file.id %>"
-                class="btn btn-link btn-sm"
+                class="text-text/50 hover:text-text"
               >
-                View
+                <span class="material-symbols-outlined">more_vert</span>
               </a>
-
-              <a
-                href="/files/<%= file.id %>/download"
-                class="btn btn-link btn-sm"
-              >
-                Download
-              </a>
-              <form
-                action="/folders/<%= folder.id %>/<%= file.id %>/delete"
-                method="POST"
-              >
-                <button
-                  type="submit"
-                  class="btn btn-link btn-sm text-danger"
-                  onclick="return confirm('Delete this file permanently?')"
-                >
-                  Delete
-                </button>
-              </form>
             </div>
           </div>
-          <% }) %> <% } else { %>
-          <div class="list-group-item text-muted text-center py-4">
-            No files in this folder yet
-          </div>
-          <% } %>
+          <h3 class="font-medium truncate"><%= file.name %></h3>
+          <p class="text-xs text-text/50 truncate">
+            <%= new Date(file.createdAt).toLocaleDateString('en-US', { month:
+            'short', day: 'numeric' }) %>
+          </p>
         </div>
-      </div>
+        <% }) %> <% } else { %>
+        <p class="text-text/50 col-span-full text-center py-12">
+          No files in this folder yet
+        </p>
+        <% } %>
+      </section>
 
-      <div class="mt-3">
-        <a href="/folders" class="text-decoration-none"
-          >&larr; Back to Folders</a
-        >
-      </div>
-    </div>
+      <!-- List View -->
+      <section
+        id="listView"
+        class="hidden bg-secondary/20 rounded-lg border border-secondary/30"
+      >
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="text-xs text-text border-b">
+              <tr>
+                <th class="text-left p-4 font-medium">Name</th>
+                <th class="hidden sm:table-cell text-left p-4 font-medium">
+                  Type
+                </th>
+                <th class="hidden sm:table-cell text-left p-4 font-medium">
+                  Uploaded
+                </th>
+                <th class="text-left p-4 font-medium">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (folder.File && folder.File.length > 0) { %> <%
+              folder.File.forEach(file => { %>
+              <tr class="hover:bg-secondary/20 border-t border-secondary/30">
+                <td class="py-3 px-4">
+                  <div class="flex items-center gap-2 truncate">
+                    <span class="material-symbols-outlined text-accent">
+                      <%= file.type === 'application/pdf' ? 'picture_as_pdf' :
+                      file.type.startsWith('image/') ? 'image' : 'description'
+                      %>
+                    </span>
+                    <span class="truncate max-w-32 sm:max-w-full"
+                      ><%= file.name %></span
+                    >
+                  </div>
+                </td>
+                <td class="hidden sm:table-cell py-3 px-4 text-text/70">
+                  <%= file.type.split('/').pop().toUpperCase() %>
+                </td>
+                <td class="hidden sm:table-cell py-3 px-4 text-text/70">
+                  <%= new Date(file.createdAt).toLocaleDateString() %>
+                </td>
+                <td class="py-3 px-4">
+                  <div class="flex gap-3">
+                    <a
+                      href="<%= file.path %>"
+                      target="_blank"
+                      class="hover:text-accent"
+                    >
+                      <span class="material-symbols-outlined">link</span>
+                    </a>
+                    <a
+                      href="/folders/<%= folder.id %>/<%= file.id %>"
+                      class="hover:text-accent"
+                    >
+                      <span class="material-symbols-outlined">more_vert</span>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              <% }) %> <% } else { %>
+              <tr>
+                <td colspan="4" class="py-6 text-center text-text/50">
+                  No files in this folder yet
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <%- include("../partials/footer") %>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const listViewBtn = document.getElementById("listViewBtn");
+      const gridViewBtn = document.getElementById("gridViewBtn");
+      const listView = document.getElementById("listView");
+      const gridView = document.getElementById("gridView");
+      const savedView = localStorage.getItem("viewPreference") || "grid";
+      setActiveView(savedView);
+
+      function setActiveView(viewType) {
+        if (viewType === "list") {
+          listView.classList.remove("hidden");
+          gridView.classList.add("hidden");
+          listViewBtn.classList.add("view-active");
+          gridViewBtn.classList.remove("view-active");
+        } else {
+          gridView.classList.remove("hidden");
+          listView.classList.add("hidden");
+          gridViewBtn.classList.add("view-active");
+          listViewBtn.classList.remove("view-active");
+        }
+        localStorage.setItem("viewPreference", viewType);
+      }
+
+      listViewBtn.addEventListener("click", () => setActiveView("list"));
+      gridViewBtn.addEventListener("click", () => setActiveView("grid"));
+    </script>
   </body>
 </html>

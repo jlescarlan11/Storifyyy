@@ -1,37 +1,153 @@
 <!DOCTYPE html>
-
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="stylesheets/style.css" />
-    <title>Document</title>
+    <title>Folders - Storify</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <style>
+      .view-active {
+        background-color: var(--color-secondary);
+        color: var(--color-accent);
+      }
+    </style>
   </head>
-  <body>
-    <p>Hello world</p>
-
-    <a href="/folders/create" class="bg-red-600">Create New</a>
-    <form action="/" enctype="multipart/form-data" method="post">
-      <div class="form-group">
-        <input type="file" class="form-control-file" name="uploaded_file" />
-        <input
-          type="submit"
-          value="Get me the stats!"
-          class="btn btn-default"
-        />
+  <body class="flex flex-col min-h-screen">
+    <%- include("partials/header") %>
+    <main class="flex-1 container max-w-7xl mx-auto p-4">
+      <div class="mb-8">
+        <h1 class="text-4xl font-bold">Folders</h1>
+        <a
+          href="/folders/create"
+          class="inline-block mt-2 bg-accent text-white px-4 py-2 rounded hover:bg-accent/80 transition"
+        >
+          Create New Folder
+        </a>
       </div>
-    </form>
 
-    <% if (locals.folders) { %>
-    <br />
-    <% folders.forEach(folder => { %>
-    <a href="folders/<%= folder.id%>"> <%= folder.name %> </a>
+      <!-- View Toggle -->
+      <div class="flex justify-end gap-2 mb-4">
+        <button
+          id="listViewBtn"
+          class="p-2 rounded-full flex bg-secondary/20 shadow"
+        >
+          <span class="material-symbols-outlined">list</span>
+        </button>
+        <button
+          id="gridViewBtn"
+          class="p-2 rounded-full flex bg-secondary/20 shadow view-active"
+        >
+          <span class="material-symbols-outlined">apps</span>
+        </button>
+      </div>
 
-    <% }) %> <% } %>
+      <!-- Grid View -->
+      <section id="gridView" class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        <% if (folders && folders.length > 0) { %> <% folders.forEach(folder =>
+        { %>
+        <a
+          href="/folders/<%= folder.id %>"
+          class="block bg-secondary/20 border border-secondary/30 rounded-lg p-4 shadow-xs hover:shadow-sm transition duration-100 ease-in-out"
+        >
+          <div class="flex items-center space-x-4">
+            <span class="material-symbols-outlined text-accent">folder</span>
+            <div>
+              <h3 class="font-medium truncate"><%= folder.name %></h3>
+              <p class="text-xs text-text/50">
+                <%= folder._count?.File || 0 %> items
+              </p>
+            </div>
+          </div>
+        </a>
+        <% }) %> <% } else { %>
+        <p class="text-text/50 col-span-full">No folders available.</p>
+        <% } %>
+      </section>
 
-    <a href="/logout">
-      <!-- Added before: pseudo-element to reserve bold width -->
-      <span> Log Out </span>
-    </a>
+      <!-- List View -->
+      <section
+        id="listView"
+        class="hidden bg-secondary/20 rounded-lg border border-secondary/30"
+      >
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead class="text-xs text-text border-b">
+              <tr>
+                <th class="text-left p-4 font-medium">Name</th>
+                <th class="hidden sm:table-cell text-left p-4 font-medium">
+                  Items
+                </th>
+                <th class="text-left p-4 font-medium">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (folders && folders.length > 0) { %> <%
+              folders.forEach(folder => { %>
+              <tr
+                class="hover:bg-secondary/20 border-t border-secondary/50 text-xs"
+              >
+                <td class="p-4">
+                  <div class="flex items-center gap-4 max-w-40 truncate">
+                    <span class="material-symbols-outlined text-accent"
+                      >folder</span
+                    >
+                    <span class="truncate"><%= folder.name %></span>
+                  </div>
+                </td>
+                <td class="hidden sm:table-cell p-4 text-text/50">
+                  <%= folder._count?.File || 0 %>
+                </td>
+                <td class="p-4">
+                  <a
+                    href="/folders/<%= folder.id %>"
+                    class="text-text/50 hover:text-text"
+                  >
+                    <span class="material-symbols-outlined text-lg"
+                      >open_in_new</span
+                    >
+                  </a>
+                </td>
+              </tr>
+              <% }) %> <% } else { %>
+              <tr>
+                <td colspan="3" class="p-4 text-text/50">
+                  No folders available.
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <%- include("partials/footer") %>
+
+    <script>
+      const listViewBtn = document.getElementById("listViewBtn");
+      const gridViewBtn = document.getElementById("gridViewBtn");
+      const listView = document.getElementById("listView");
+      const gridView = document.getElementById("gridView");
+
+      const savedView = localStorage.getItem("folderViewPreference") || "grid";
+      setActiveView(savedView);
+
+      function setActiveView(viewType) {
+        if (viewType === "list") {
+          listView.classList.remove("hidden");
+          gridView.classList.add("hidden");
+          listViewBtn.classList.add("view-active");
+          gridViewBtn.classList.remove("view-active");
+        } else {
+          gridView.classList.remove("hidden");
+          listView.classList.add("hidden");
+          gridViewBtn.classList.add("view-active");
+          listViewBtn.classList.remove("view-active");
+        }
+        localStorage.setItem("folderViewPreference", viewType);
+      }
+
+      listViewBtn.addEventListener("click", () => setActiveView("list"));
+      gridViewBtn.addEventListener("click", () => setActiveView("grid"));
+    </script>
   </body>
 </html>

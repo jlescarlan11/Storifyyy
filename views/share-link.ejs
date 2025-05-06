@@ -1,4 +1,47 @@
-<p>
-  Shareable link (valid until <%= shared.expiresAt.toLocaleDateString() %>):
-</p>
-<input type="text" value="<%= shareLink %>" readonly />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Share Folder</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body class="flex flex-col min-h-screen bg-background">
+    <%- include("partials/header") %>
+    <main
+      class="flex-1 container max-w-7xl mx-auto p-4 flex justify-center items-center"
+    >
+      <div
+        class="w-full max-w-md bg-secondary/20 border border-secondary/30 rounded-xl shadow p-6"
+      >
+        <h2 class="text-2xl font-bold mb-4 text-center text-accent">
+          Shareable Link
+        </h2>
+
+        <p class="text-sm text-text mb-2">
+          Valid until
+          <span class="font-semibold text-text"
+            ><%= shared.expiresAt.toLocaleDateString() %></span
+          >:
+        </p>
+
+        <input
+          type="text"
+          value="<%= shareLink %>"
+          readonly
+          class="w-full rounded-md border border-secondary/30 bg-white text-text p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-accent cursor-default"
+        />
+
+        <div class="text-center">
+          <button
+            onclick="navigator.clipboard.writeText('<%= shareLink %>')"
+            class="px-4 py-2 bg-accent text-white rounded-md text-sm hover:bg-accent/80"
+          >
+            Copy to Clipboard
+          </button>
+        </div>
+      </div>
+    </main>
+    <%- include("partials/footer") %>
+  </body>
+</html>
